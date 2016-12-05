@@ -190,7 +190,7 @@ namespace XMLRewriter {
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Container";
-            this.Text = "XML Convertor";
+            this.Text = "XML Rewriter";
             this.convertContainer.ResumeLayout(false);
             this.convertContainer.PerformLayout();
             this.fileSettingsContainer.ResumeLayout(false);

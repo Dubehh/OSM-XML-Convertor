@@ -75,17 +75,25 @@ namespace XMLRewriter.Core {
                 default:
                 case "way":
                     string way_id = origin.Attribute("id").Value;
-                    string name = "";
-                    List<XElement> references = new List<XElement>();
+                    XElement rtn = new XElement("w", new XAttribute("id", way_id));
                     foreach (XElement element in origin.Descendants()) {
                         if (element.Name.ToString().Equals("nd")) {
-                            references.Add(new XElement("nd", new XAttribute("rf", element.FirstAttribute.Value)));
-                        } else if (element.Attribute("k") != null && element.Attribute("k").Value.Equals("name")) {
-                            name = element.Attribute("v").Value;
+                            rtn.Add(new XElement("nd", new XAttribute("rf", element.FirstAttribute.Value)));
+                        } else if (element.Attribute("k") != null) {
+                            var value = element.Attribute("v").Value;
+                            switch (element.Attribute("k").Value) {
+                                case "name":
+                                    rtn.Add(new XAttribute("nm", value));
+                                    break;
+                                case "maxspeed":
+                                    rtn.Add(new XAttribute("ms", value));
+                                    break;
+                                case "oneway":
+                                    rtn.Add(new XAttribute("ow", value));
+                                    break;
+                            }
                         }
                     }
-                    XElement rtn = new XElement("w", new XAttribute("id", way_id), new XAttribute("nm", name));
-                    rtn.Add(references);
                     return rtn;
             }
         }
