@@ -47,6 +47,11 @@ namespace XMLRewriter.Core {
             }
         }
 
+
+        /*
+        * Loops through the XML File and parses all the Way elements and the Node elements.
+        * This method uses lazy-loading for optimalization purposes.
+        */
         private IEnumerable<XElement> ParsedElements() {
             using (XmlReader reader = XmlReader.Create(_path)) {
                 reader.MoveToContent();
@@ -61,10 +66,16 @@ namespace XMLRewriter.Core {
             }
         }
 
+        // Logs the given message to the DataLog usercontrol
         private void log(String msg) {
             DataLog.AppendText(msg + "\n");
         }
 
+        /*
+        * Converts the given element to a newly, rewritten, XElement.
+        * Both Nodes and Ways can be returned from this method.
+        * All tags and attributes are shortened to 1/2 char words.
+        */
         private XElement convertElement(XElement origin) {
             switch (origin.Name.ToString()) {
                 case "node":
