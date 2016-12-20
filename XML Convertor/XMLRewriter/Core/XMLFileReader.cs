@@ -43,7 +43,7 @@ namespace XMLRewriter.Core {
                 log("Started Saving");
                 _writer.save();
                 log("Saved succesfully");
-                MessageBox.Show("Converting finished, you can locate the converted file at: "+_path+@"\"+_fileName+".xml", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+                MessageBox.Show("Converting finished, you can locate the converted file at: " + _path + @"\" + _fileName + ".xml", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }
         }
 
@@ -93,6 +93,9 @@ namespace XMLRewriter.Core {
                         } else if (element.Attribute("k") != null) {
                             var value = element.Attribute("v").Value;
                             switch (element.Attribute("k").Value) {
+                                case "highway":
+                                    rtn.Add(new XAttribute("t", ParseWayValue(value)));
+                                    break;
                                 case "name":
                                     rtn.Add(new XAttribute("nm", value));
                                     break;
@@ -109,6 +112,25 @@ namespace XMLRewriter.Core {
             }
         }
 
+        public static String ParseWayValue(string origin) {
+            switch (origin) {
+                case "residential": return "res";
+                case "unclassified": return "unc";
+                case "motorway": return "mot";
+                case "primary": return "pri";
+                case "path": return "pth";
+                case "trunk": return "tru";
+                case "tertiary": return "ter";
+                case "motorway_link": return "mot_l";
+                case "trunk_link": return "tru_l";
+                case "primary_link": return "pri_l";
+                case "secondary_link": return "sec_l";
+                case "tertiary_link": return "ter_l";
+                default: case "secondary": {
+                        return "sec";
+                    }
+            }
+        }
 
     }
 }
